@@ -35,31 +35,36 @@
 
         // webGL renderer
         renderer = new THREE.WebGLRenderer();
+        scene.fog = new THREE.FogExp2(0x11111f, 0.002);
+        renderer.setClearColor(scene.fog.color);
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
         let loader = new THREE.TextureLoader();
-        loader.load("smoke.png", function(texture) {
-          cloudGeo = new THREE.PlaneBufferGeometry(500, 500);
-          cloudMaterial = new THREE.MeshLambertMaterial({
-            map: texture,
-            transparent: true
-          });
+        loader.load(
+          "https://res.cloudinary.com/bracket-factory/image/upload/v1563232143/smoke.png",
+          function(texture) {
+            cloudGeo = new THREE.PlaneBufferGeometry(500, 500);
+            cloudMaterial = new THREE.MeshLambertMaterial({
+              map: texture,
+              transparent: true
+            });
 
-          for (let p = 0; p < 25; p++) {
-            let cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
-            cloud.position.set(
-              Math.random() * 800 - 400,
-              500,
-              Math.random() * 500 - 450
-            );
-            cloud.rotation.x = 1.16;
-            cloud.rotation.y = -0.12;
-            cloud.rotation.z = Math.random() * 360;
-            cloud.material.opacity = 0.6;
-            scene.add(cloud);
+            for (let p = 0; p < 25; p++) {
+              let cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
+              cloud.position.set(
+                Math.random() * 800 - 400,
+                500,
+                Math.random() * 500 - 450
+              );
+              cloud.rotation.x = 1.16;
+              cloud.rotation.y = -0.12;
+              cloud.rotation.z = Math.random() * 360;
+              cloud.material.opacity = 0.6;
+              scene.add(cloud);
+            }
           }
-        });
+        );
       }
       init();
       renderer.render(scene, camera);
